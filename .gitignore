@@ -1,0 +1,7 @@
+.mypy_cache/
+.vscode/
+venv/
+__pycache__/
+.env
+users.db
+logfile.log
