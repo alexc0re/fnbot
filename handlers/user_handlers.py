@@ -31,7 +31,7 @@ async def process_start_command(message: Message, state: FSMContext):
 
 # Обробка запиту з кнопки назад
 
-@router.message(F.text == 'Що там')
+@router.message(F.text == 'Оновити стату')
 async def update_start_bot(message: Message, state: FSMContext):
     username = db.get_user_order_number(message.from_user.id)
     ans = get_fn_user_info(username)
@@ -39,7 +39,7 @@ async def update_start_bot(message: Message, state: FSMContext):
     await state.clear()
 
 
-@router.message(F.text == 'Оновити стату')
+@router.message(F.text == 'Оновити нікнейм')
 async def update_nickname(message: Message, state: FSMContext):
     await message.answer(text='Fn nickname:')
     await state.set_state(Order_status.save_username)
