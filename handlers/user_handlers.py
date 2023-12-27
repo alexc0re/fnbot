@@ -35,7 +35,6 @@ async def process_start_command(message: Message, state: FSMContext):
 async def update_start_bot(message: Message, state: FSMContext):
     username = db.get_user_order_number(message.from_user.id)
     ans = get_fn_user_info(username)
-    log.info(f'Username: {ans}')
     await message.answer(text=ans, reply_markup=back_button_keyboard())
     await state.clear()
 
@@ -50,6 +49,10 @@ async def update_nickname(message: Message, state: FSMContext):
 async def ping_fn(message: Message, state: FSMContext):
     db.process_user(message.from_user.id, message.text)
     await message.answer(text="Нікнейм збережено", reply_markup=back_button_keyboard())
+    username = db.get_user_order_number(message.from_user.id)
+    ans = get_fn_user_info(username)
+    await message.answer(text=ans, reply_markup=back_button_keyboard())
+    await state.clear()
 
 
 # Этот хэндлер срабатывает на команду /help
