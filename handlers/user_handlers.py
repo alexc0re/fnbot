@@ -23,10 +23,10 @@ storage = MemoryStorage()
 
 @router.message(CommandStart())
 async def process_start_command(message: Message, state: FSMContext):
-    if message.chat.type in ['group', 'supergroup']:
-        await message.answer(text=
-                             'Fn nickname:')
-        await state.set_state(Order_status.save_username)
+
+    await message.answer(text=
+                         'Fn nickname:')
+    await state.set_state(Order_status.save_username)
 
 
 # Обробка запиту з кнопки назад
