@@ -39,7 +39,7 @@ async def update_start_bot(message: Message, state: FSMContext):
     await state.clear()
 
 
-@router.message(F.text == 'Оновити нікнейм')
+@router.message(F.text == 'Оновити стату')
 async def update_nickname(message: Message, state: FSMContext):
     await message.answer(text='Fn nickname:')
     await state.set_state(Order_status.save_username)

@@ -1,6 +1,6 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
 back_button = KeyboardButton(text='Що там')
-save_nickname_btn = KeyboardButton(text='Оновити нікнейм')
+save_nickname_btn = KeyboardButton(text='Оновити стату')
 
 
 
