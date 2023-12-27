@@ -28,6 +28,7 @@ def api_request(endpoint, method):
 
 
 def get_fn_user_info(username):
+    log.info(f'get_fn_user_info: {username}')
     url = f"https://fortnite-api.com/v2/stats/br/v2?name={username}&accountType=psn"
     endpoint = url
     method = "GET"
@@ -78,7 +79,7 @@ def stat(wins, kills, deaths, kd, matches, winRate, minutes):
         f'Кількість перемог: {wins}\n'
         f'Кількість матчів: {matches}  🏆\n'
         f'Відсоток виграшів: {winRate}%\n'
-        f'Тривалість гри: {round(minutes/60, 1)} годин'
+        f'Проїбав життя на: {round(minutes/60, 1)} годин'
     )
     return template
 

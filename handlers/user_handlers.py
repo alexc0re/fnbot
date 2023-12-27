@@ -1,3 +1,7 @@
+import logging
+
+from support.logger import log
+
 from aiogram import Router, F
 from aiogram.filters import Command, StateFilter, CommandStart, and_f, or_f
 from aiogram.fsm.context import FSMContext
@@ -5,7 +9,10 @@ from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.types import Message
 from keyboards.order_keyboard import *
 from fnAPI.fn_api import get_fn_user_info
-from support.filters import alpha_space_filter
+from database.db_manipulations import UsersDB
+
+db = UsersDB()
+from handlers import Order_status
 
 # Инициализируем роутер уровня модуля
 router = Router()
@@ -14,24 +21,35 @@ router = Router()
 storage = MemoryStorage()
 
 
-#  "/start"
 @router.message(CommandStart())
-async def process_start_command(message: Message):
-    await message.answer(text=
-                         'Fn nickname:')
-
-
-@router.message()
-async def ping_fn(message: Message, state: FSMContext):
-    await message.answer(text=get_fn_user_info(message.text))
+async def process_start_command(message: Message, state: FSMContext):
+    if message.chat.type in ['group', 'supergroup']:
+        await message.answer(text=
+                             'Fn nickname:')
+        await state.set_state(Order_status.save_username)
 
 
 # Обробка запиту з кнопки назад
 
-@router.message(F.text == 'Назад  🔙')
+@router.message(F.text == 'Що там')
 async def update_start_bot(message: Message, state: FSMContext):
-    await message.answer(text='Головне меню', reply_markup=back_button_keyboard())
+    username = db.get_user_order_number(message.from_user.id)
+    ans = get_fn_user_info(username)
+    log.info(f'Username: {ans}')
+    await message.answer(text=ans, reply_markup=back_button_keyboard())
     await state.clear()
+
+
+@router.message(F.text == 'Оновити нікнейм')
+async def update_nickname(message: Message, state: FSMContext):
+    await message.answer(text='Fn nickname:')
+    await state.set_state(Order_status.save_username)
+
+
+@router.message(StateFilter(Order_status.save_username))
+async def ping_fn(message: Message, state: FSMContext):
+    db.process_user(message.from_user.id, message.text)
+    await message.answer(text="Нікнейм збережено", reply_markup=back_button_keyboard())
 
 
 # Этот хэндлер срабатывает на команду /help
