@@ -39,7 +39,7 @@ async def update_start_bot(message: Message, state: FSMContext):
     await state.clear()
 
 
-@router.message(F.text == 'Оновити нікнейм')
+@router.message(Command(commands='new'))
 async def update_nickname(message: Message, state: FSMContext):
     await message.answer(text='Fn nickname:')
     await state.set_state(Order_status.save_username)
@@ -54,8 +54,14 @@ async def ping_fn(message: Message, state: FSMContext):
     await message.answer(text=ans, reply_markup=back_button_keyboard())
     await state.clear()
 
+@router.message(F.text == 'Стата за цей сезон')
+async def last_season_stat (message: Message, state: FSMContext):
+    username = db.get_user_order_number(message.from_user.id)
+    ans = get_fn_user_info(username, "season")
+    await message.answer(text=ans, reply_markup=back_button_keyboard())
+
 
 # Этот хэндлер срабатывает на команду /help
 @router.message(Command(commands='help'))
 async def process_help_command(message: Message):
-    await message.answer(text='/help')
+    await message.answer(text='/new - змінити нікнейм\n')

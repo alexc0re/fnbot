@@ -27,28 +27,17 @@ def api_request(endpoint, method):
 
 
 
-def get_fn_user_info(username):
+def get_fn_user_info(username, season='all'):
+    if season == 'all':
+        url = f"https://fortnite-api.com/v2/stats/br/v2?name={username}"
+    elif season == 'season':
+        url = f"https://fortnite-api.com/v2/stats/br/v2?name={username}&timeWindow={season}"
+    message = str
     log.info(f'get_fn_user_info: {username}')
-    url = f"https://fortnite-api.com/v2/stats/br/v2?name={username}&accountType=psn"
     endpoint = url
     method = "GET"
     response = api_request(endpoint, method)
     log.info(f'Response: {response.status_code}')
-
-    if response.status_code == 404:
-        url = f"https://fortnite-api.com/v2/stats/br/v2?name={username}&accountType=epic"
-        response = api_request(url, method)
-        log.info(f'Response: {response.status_code}')
-        if response.status_code == 200:
-            resp = response.json()
-            wins = resp['data']['stats']['all']['overall']['wins']
-            kills = resp['data']['stats']['all']['overall']['kills']
-            deaths = resp['data']['stats']['all']['overall']['deaths']
-            kd = resp['data']['stats']['all']['overall']['kd']
-            matches = resp['data']['stats']['all']['overall']['matches']
-            winRate = resp['data']['stats']['all']['overall']['winRate']
-            minutes = resp['data']['stats']['all']['overall']['minutesPlayed']
-
 
     if response.status_code == 200:
         resp = response.json()
@@ -59,14 +48,17 @@ def get_fn_user_info(username):
         matches = resp['data']['stats']['all']['overall']['matches']
         winRate = resp['data']['stats']['all']['overall']['winRate']
         minutes = resp['data']['stats']['all']['overall']['minutesPlayed']
-
         message = stat(wins, kills, deaths, kd, matches, winRate, minutes)
         print(message)
         return message
+
     elif response.status_code == 403:
         message = 'Треба відкрити стату'
-        print(message)
         return message
+
+    elif response.status_code == 404:
+        message = 'Такого користувача немає 404'
+    return message
 
 
 
