@@ -40,24 +40,28 @@ def get_fn_user_info(username, season='all'):
     log.info(f'Response: {response.status_code}')
 
     if response.status_code == 200:
-        resp = response.json()
-        wins = resp['data']['stats']['all']['overall']['wins']
-        kills = resp['data']['stats']['all']['overall']['kills']
-        deaths = resp['data']['stats']['all']['overall']['deaths']
-        kd = resp['data']['stats']['all']['overall']['kd']
-        matches = resp['data']['stats']['all']['overall']['matches']
-        winRate = resp['data']['stats']['all']['overall']['winRate']
-        minutes = resp['data']['stats']['all']['overall']['minutesPlayed']
-        message = stat(wins, kills, deaths, kd, matches, winRate, minutes)
-        print(message)
-        return message
+        message = parce_stat(response.json())
+
 
     elif response.status_code == 403:
         message = 'Треба відкрити стату'
         return message
 
     elif response.status_code == 404:
-        message = 'Такого користувача немає 404'
+
+        if season == 'all':
+            url = f"https://fortnite-api.com/v2/stats/br/v2?name={username}&accountType=psn"
+        elif season == 'season':
+            url = f"https://fortnite-api.com/v2/stats/br/v2?name={username}&timeWindow={season}&accountType=psn&"
+
+        endpoint = url
+        method = "GET"
+        response = api_request(endpoint, method)
+        if response.status_code == 404:
+            message = f'Такого користувача {username} не знайдено, response code: {response.status_code}'
+        elif response.status_code == 200:
+            message = parce_stat(response.json())
+
     return message
 
 
@@ -75,6 +79,19 @@ def stat(wins, kills, deaths, kd, matches, winRate, minutes):
     )
     return template
 
+
+
+def parce_stat(resp):
+    wins = resp['data']['stats']['all']['overall']['wins']
+    kills = resp['data']['stats']['all']['overall']['kills']
+    deaths = resp['data']['stats']['all']['overall']['deaths']
+    kd = resp['data']['stats']['all']['overall']['kd']
+    matches = resp['data']['stats']['all']['overall']['matches']
+    winRate = resp['data']['stats']['all']['overall']['winRate']
+    minutes = resp['data']['stats']['all']['overall']['minutesPlayed']
+    message = stat(wins, kills, deaths, kd, matches, winRate, minutes)
+    print(message)
+    return message
 
 
 if __name__ == '__main__':
