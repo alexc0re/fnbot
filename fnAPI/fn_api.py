@@ -69,6 +69,7 @@ def get_fn_user_info(username, season='all'):
 def stat(wins, kills, deaths, kd, matches, winRate, minutes, username):
     template = (
         f'{username}\n'
+        f"{'🐓'*len(username)}\n"
         'Ваша ст<b>ass</b>тистика: \n'
         f'За весь цей час ти насовав за щоку {kills} чувакам 🧟\n'
         f'В твоєму роті побувало  {deaths} школярів!  🧟\n'
