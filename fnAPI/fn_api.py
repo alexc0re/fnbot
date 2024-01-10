@@ -40,7 +40,7 @@ def get_fn_user_info(username, season='all'):
     log.info(f'Response: {response.status_code}')
 
     if response.status_code == 200:
-        message = parce_stat(response.json())
+        message = parce_stat(response.json(), username)
 
 
     elif response.status_code == 403:
@@ -60,14 +60,15 @@ def get_fn_user_info(username, season='all'):
         if response.status_code == 404:
             message = f'Такого користувача {username} не знайдено, response code: {response.status_code}'
         elif response.status_code == 200:
-            message = parce_stat(response.json())
+            message = parce_stat(response.json(), username)
 
     return message
 
 
 
-def stat(wins, kills, deaths, kd, matches, winRate, minutes):
+def stat(wins, kills, deaths, kd, matches, winRate, minutes, username):
     template = (
+        f'{username}\n'
         'Ваша ст<b>ass</b>тистика: \n'
         f'За весь цей час ти насовав за щоку {kills} чувакам 🧟\n'
         f'В твоєму роті побувало  {deaths} школярів!  🧟\n'
@@ -81,7 +82,7 @@ def stat(wins, kills, deaths, kd, matches, winRate, minutes):
 
 
 
-def parce_stat(resp):
+def parce_stat(resp, username):
     wins = resp['data']['stats']['all']['overall']['wins']
     kills = resp['data']['stats']['all']['overall']['kills']
     deaths = resp['data']['stats']['all']['overall']['deaths']
@@ -89,7 +90,7 @@ def parce_stat(resp):
     matches = resp['data']['stats']['all']['overall']['matches']
     winRate = resp['data']['stats']['all']['overall']['winRate']
     minutes = resp['data']['stats']['all']['overall']['minutesPlayed']
-    message = stat(wins, kills, deaths, kd, matches, winRate, minutes)
+    message = stat(wins, kills, deaths, kd, matches, winRate, minutes, username)
     print(message)
     return message
 
