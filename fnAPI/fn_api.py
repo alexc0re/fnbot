@@ -66,7 +66,7 @@ def get_fn_user_info(username, season='all'):
 
 
 
-def stat(wins, kills, deaths, kd, matches, winRate, minutes, username):
+def stat(wins, kills, deaths, kd, matches, winRate, minutes, username, top3, top5, kpm):
     template = (
         f'{username}\n'
         f"{'🐓'*len(username)}\n"
@@ -74,7 +74,10 @@ def stat(wins, kills, deaths, kd, matches, winRate, minutes, username):
         f'За весь цей час ти насовав за щоку {kills} чувакам 🧟\n'
         f'В твоєму роті побувало  {deaths} школярів!  🧟\n'
         f'КД: {kd} 🏅\n'
+        f'Кількість ударів по губах за хвилину: {kpm} 🏆\n'
         f'Кількість перемог: {wins}\n'
+        f'Топ-3 защеканів: {top3}\n' 
+        f'Топ-5 защеканів: {top5}\n'
         f'Кількість матчів: {matches}  🏆\n'
         f'Відсоток виграшів: {winRate}%\n'
         f'Проїбав життя на: {round(minutes/60, 1)} годин'
@@ -85,13 +88,16 @@ def stat(wins, kills, deaths, kd, matches, winRate, minutes, username):
 
 def parce_stat(resp, username):
     wins = resp['data']['stats']['all']['overall']['wins']
+    top3 = resp['data']['stats']['all']['overall']['top3']
+    top5 = resp['data']['stats']['all']['overall']['top5']
+    kills_per_minute = resp['data']['stats']['all']['overall']['killsPerMin']
     kills = resp['data']['stats']['all']['overall']['kills']
     deaths = resp['data']['stats']['all']['overall']['deaths']
     kd = resp['data']['stats']['all']['overall']['kd']
     matches = resp['data']['stats']['all']['overall']['matches']
     winRate = resp['data']['stats']['all']['overall']['winRate']
     minutes = resp['data']['stats']['all']['overall']['minutesPlayed']
-    message = stat(wins, kills, deaths, kd, matches, winRate, minutes, username)
+    message = stat(wins, kills, deaths, kd, matches, winRate, minutes, username, top3, top5, kills_per_minute)
     print(message)
     return message
 
