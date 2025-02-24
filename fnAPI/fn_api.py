@@ -92,7 +92,7 @@ def stat(wins, kills, deaths, kd, matches, winRate, minutes, username, top3, top
 
 
     )
-    elif 'SHOORIK88' in username and minutes+61 <= 12381:
+    elif 'SHOORIK88' in username and minutes <= 12381:
         time_to_play = 12381  - minutes
         template = (
             f'<b>🐓🐓Пан Пітушурік🐓🐓</b>\n'
