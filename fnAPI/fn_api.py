@@ -81,12 +81,11 @@ def stat(wins, kills, deaths, kd, matches, winRate, minutes, username, top3, top
         f'Відсоток виграшів: {winRate}%\n'
         f'Проїбав життя на: {round(minutes/60, 1)} годин'
     )
-    bantime_season = 318
-    bantime_global = 34776
-    # if 'SHOORIK88' in username and minutes < 12378 or 'SHOORIK88' in username and minutes < 60:
+    bantime_season = 0
+    bantime_global = 12378
     time_to_play = 0
 
-    if 'alexc0re' in username and minutes <= bantime_season:
+    if 'SHOORIK88' in username and minutes <= bantime_season:
         time_to_play = bantime_season + 60 - minutes
         template = (
             f'<b>🐓🐓Пан Пітушурік🐓🐓</b>\n'
@@ -96,7 +95,7 @@ def stat(wins, kills, deaths, kd, matches, winRate, minutes, username, top3, top
 
 
     )
-    elif 'alexc0re' in username and minutes <= bantime_global:
+    elif 'SHOORIK88' in username and minutes <= bantime_global:
         time_to_play = bantime_global + 60 - minutes
         template = (
             f'<b>🐓🐓Пан Пітушурік🐓🐓</b>\n'
