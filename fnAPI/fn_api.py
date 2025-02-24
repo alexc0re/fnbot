@@ -58,7 +58,7 @@ def get_fn_user_info(username, season='all'):
         method = "GET"
         response = api_request(endpoint, method)
         if response.status_code == 404:
-            message = f'Такого користувача {username} не знайдено, response code: {response.status_code}'
+            message = f'Такого користувача {username} не знайдено, або ти ще не катав в цьому сезоні  response code: {response.status_code}'
         elif response.status_code == 200:
             message = parce_stat(response.json(), username)
 
@@ -81,9 +81,6 @@ def stat(wins, kills, deaths, kd, matches, winRate, minutes, username, top3, top
         f'Відсоток виграшів: {winRate}%\n'
         f'Проїбав життя на: {round(minutes/60, 1)} годин'
     )
-    bantime_season = 0
-    bantime_global = 12378
-    time_to_play = 0
 
     if 'SHOORIK88' in username and minutes <= 60:
         time_to_play = 60 - minutes
@@ -95,8 +92,8 @@ def stat(wins, kills, deaths, kd, matches, winRate, minutes, username, top3, top
 
 
     )
-    elif 'SHOORIK88' in username and minutes <= bantime_global:
-        time_to_play = 12378  - minutes
+    elif 'SHOORIK88' in username and minutes <= 12381:
+        time_to_play = 12381  - minutes
         template = (
             f'<b>🐓🐓Пан Пітушурік🐓🐓</b>\n'
             'Ваша ст<b>ass</b>тистика заблокована \n'
