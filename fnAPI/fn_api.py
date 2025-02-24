@@ -74,27 +74,21 @@ def stat(wins, kills, deaths, kd, matches, winRate, minutes, username, top3, top
         f'За весь цей час ти насовав за щоку {kills} чувакам 🧟\n'
         f'В твоєму роті побувало  {deaths} школярів!  🧟\n'
         f'КД: {kd} 🏅\n'
-        f'Кількість ударів по губах за хвилину: {kpm} 🏆\n'
+        f'Кількість ударів тобі по губах за хвилину: {kpm} 🏆\n'
         f'Кількість перемог: {wins}🏆\n'
         f'Топ-3 защеканів: {top3}🏆\n' 
         f'Кількість матчів: {matches}  🏆\n'
         f'Відсоток виграшів: {winRate}%\n'
         f'Проїбав життя на: {round(minutes/60, 1)} годин'
     )
-    if username =='alexc0re-ukr':
+    # if 'SHOORIK88' in username and minutes < 12378 or 'SHOORIK88' in username and minutes < 60:
+    if 'alexc0re' in username and minutes < 34776 or 'alexc0re' in username and minutes < 318:
         template = (
-            f'пітуханіще\n'
-            f"{'🐓' * len(username)}\n"
-            'Ваша ст<b>ass</b>тистика: \n'
-            f'За весь цей час ти насовав за щоку {kills} чувакам 🧟\n'
-            f'В твоєму роті побувало  {deaths} школярів!  🧟\n'
-            f'КД: {kd} 🏅\n'
-            f'Кількість ударів по губах за хвилину: {kpm} 🏆\n'
-            f'Кількість перемог: {wins}🏆\n'
-            f'Топ-3 защеканів: {top3}🏆\n'
-            f'Кількість матчів: {matches}  🏆\n'
-            f'Відсоток виграшів: {winRate}%\n'
-            f'Проїбав життя на: {round(minutes / 60, 1)} годин'
+            f'<b>🐓🐓Пан Пітушурік🐓🐓</b>\n'
+            'Ваша ст<b>ass</b>тистика заблокована \n'
+            f''
+            f'Для повернення доступу до стати ви маєте просидіти на хуйцах 60 хвилин\n'
+
         )
     return template
 
