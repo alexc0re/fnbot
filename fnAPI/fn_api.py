@@ -57,7 +57,7 @@ def get_fn_user_info(username, season='all'):
         response = api_request(url, "GET")
 
         if response.status_code == 404:
-            message = f'Такого користувача {username} не знайдено, response code: {response.status_code}'
+            message = f'Такого користувача {username} не знайдено, або ти ще не катав в цьому сезоні  response code: {response.status_code}'
         elif response.status_code == 200:
             message = parce_stat(response.json(), username)
 
@@ -73,13 +73,33 @@ def stat(wins, kills, deaths, kd, matches, winRate, minutes, username, top3, top
         f'За весь цей час ти насовав за щоку {kills} чувакам 🧟\n'
         f'В твоєму роті побувало  {deaths} школярів!  🧟\n'
         f'КД: {kd} 🏅\n'
-        f'Кількість ударів по губах за хвилину: {kpm} 🏆\n'
+        f'Кількість ударів тобі по губах за хвилину: {kpm} 🏆\n'
         f'Кількість перемог: {wins}🏆\n'
         f'Топ-3 защеканів: {top3}🏆\n' 
         f'Кількість матчів: {matches}  🏆\n'
         f'Відсоток виграшів: {winRate}%\n'
         f'Проїбав життя на: {round(minutes/60, 1)} годин'
     )
+
+    if 'SHOORIK88' in username and minutes <= 60:
+        time_to_play = 60 - minutes
+        template = (
+            f'<b>🐓🐓Пан Пітушурік🐓🐓</b>\n'
+            'Ваша ст<b>ass</b>тистика заблокована \n'
+            f''
+            f'Для повернення доступу до стати ви маєте просидіти на гарячих хуйцях ще {time_to_play} хвилин\n'
+
+
+    )
+    elif 'SHOORIK88' in username and minutes <= 12381:
+        time_to_play = 12381  - minutes
+        template = (
+            f'<b>🐓🐓Пан Пітушурік🐓🐓</b>\n'
+            'Ваша ст<b>ass</b>тистика заблокована \n'
+            f''
+            f'Для повернення доступу до стати ви маєте просидіти на гарячих хуйцях ще {time_to_play} хвилин\n'
+
+        )
     return template
 
 
