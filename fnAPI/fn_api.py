@@ -26,37 +26,36 @@ def api_request(endpoint, method):
 
 
 
-
 def get_fn_user_info(username, season='all'):
+    url = str
     if season == 'all':
         url = f"https://fortnite-api.com/v2/stats/br/v2?name={username}"
     elif season == 'season':
         url = f"https://fortnite-api.com/v2/stats/br/v2?name={username}&timeWindow={season}"
-    message = str
-    log.info(f'get_fn_user_info: {username}')
-    endpoint = url
-    method = "GET"
-    response = api_request(endpoint, method)
-    log.info(f'Response: {response.status_code}')
+
+    response = api_request(url, "GET")
 
     if response.status_code == 200:
         message = parce_stat(response.json(), username)
-
 
     elif response.status_code == 403:
         message = 'Треба відкрити стату'
         return message
 
     elif response.status_code == 404:
-
         if season == 'all':
             url = f"https://fortnite-api.com/v2/stats/br/v2?name={username}&accountType=psn"
         elif season == 'season':
             url = f"https://fortnite-api.com/v2/stats/br/v2?name={username}&timeWindow={season}&accountType=psn&"
+        response = api_request(url, "GET")
 
-        endpoint = url
-        method = "GET"
-        response = api_request(endpoint, method)
+        if response.status_code == 404:
+            if season == 'all':
+                url = f"https://fortnite-api.com/v2/stats/br/v2?name={username}&accountType=xbl"
+        elif season == 'season':
+            url = f"https://fortnite-api.com/v2/stats/br/v2?name={username}&timeWindow={season}&accountType=xbl"
+        response = api_request(url, "GET")
+
         if response.status_code == 404:
             message = f'Такого користувача {username} не знайдено, response code: {response.status_code}'
         elif response.status_code == 200:
