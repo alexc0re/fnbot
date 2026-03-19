@@ -27,41 +27,30 @@ def api_request(endpoint, method):
 
 
 def get_fn_user_info(username, season='all'):
-    url = str
-    if season == 'all':
-        url = f"https://fortnite-api.com/v2/stats/br/v2?name={username}"
-    elif season == 'season':
-        url = f"https://fortnite-api.com/v2/stats/br/v2?name={username}&timeWindow={season}"
+    def build_url(account_type=None):
+        base_url = f"https://fortnite-api.com/v2/stats/br/v2?name={username}"
 
-    response = api_request(url, "GET")
+        if season == 'season':
+            base_url += "&timeWindow=season"
 
-    if response.status_code == 200:
-        message = parce_stat(response.json(), username)
+        if account_type:
+            base_url += f"&accountType={account_type}"
 
-    elif response.status_code == 403:
-        message = 'Треба відкрити стату'
-        return message
+        return base_url
 
-    elif response.status_code == 404:
-        if season == 'all':
-            url = f"https://fortnite-api.com/v2/stats/br/v2?name={username}&accountType=psn"
-        elif season == 'season':
-            url = f"https://fortnite-api.com/v2/stats/br/v2?name={username}&timeWindow={season}&accountType=psn&"
+    account_types = [None, 'psn', 'xbl']
+
+    for account_type in account_types:
+        url = build_url(account_type)
         response = api_request(url, "GET")
 
-        if response.status_code == 404:
-            if season == 'all':
-                url = f"https://fortnite-api.com/v2/stats/br/v2?name={username}&accountType=xbl"
-        elif season == 'season':
-            url = f"https://fortnite-api.com/v2/stats/br/v2?name={username}&timeWindow={season}&accountType=xbl"
-        response = api_request(url, "GET")
+        if response.status_code == 200:
+            return parce_stat(response.json(), username)
 
-        if response.status_code == 404:
-            message = f'Такого користувача {username} не знайдено, або ти ще не катав в цьому сезоні  response code: {response.status_code}'
-        elif response.status_code == 200:
-            message = parce_stat(response.json(), username)
+        if response.status_code == 403:
+            return 'Треба відкрити стату'
 
-    return message
+    return f'Такого користувача {username} не знайдено, або ти ще не катав в цьому сезоні'
 
 
 
