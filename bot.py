@@ -2,6 +2,8 @@ import asyncio
 import logging
 
 from aiogram import Bot, Dispatcher
+from aiogram.client.default import DefaultBotProperties
+from aiogram.enums import ParseMode
 
 from envsetup import Credentials
 from handlers import  user_handlers
@@ -12,7 +14,7 @@ logging.basicConfig(level=logging.INFO)
 # Функция конфигурирования и запуска бота
 async def main():
     # Инициализируем бот и диспетчер
-    bot = Bot(token=Credentials.BOT_TOKEN, parse_mode='HTML')
+    bot = Bot(token=Credentials.BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     dp = Dispatcher()
 
     # Регистриуем роутеры в диспетчере

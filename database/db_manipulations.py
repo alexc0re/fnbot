@@ -1,7 +1,7 @@
 
 from database.db_connection import DataBaseConnection
 
-from fnAPI.fn_api import log
+from api.fn_api import log
 class UsersDB:
 
     def __init__(self):
